@@ -2,6 +2,9 @@
  * @file AddStudentForm.jsx
  * @description Form component for entering new student information.
  *              Validates inputs before calling the onAdd callback.
+ *              Fires a success toast on submission and an error toast on
+ *              validation failure.
+ *
  *              Assumption: age must be a positive integer between 16 and 99.
  */
 
@@ -11,42 +14,49 @@ import { useState } from "react";
  * AddStudentForm – controlled form that collects student name, course, and age.
  *
  * @param {object}   props
- * @param {Function} props.onAdd - Callback invoked with the new student object
- *                                 { name, course, age } on successful submission.
+ * @param {Function} props.onAdd      - Callback invoked with { name, course, age }
+ *                                      on successful submission.
+ * @param {Function} props.showToast  - Callback to fire a toast notification:
+ *                                      showToast(message, type).
  * @returns {JSX.Element}
  */
-function AddStudentForm({ onAdd }) {
+function AddStudentForm({ onAdd, showToast }) {
   // Controlled input state for each field
-  const [name, setName]     = useState("");
+  const [name,   setName]   = useState("");
   const [course, setCourse] = useState("");
-  const [age, setAge]       = useState("");
-  const [error, setError]   = useState("");
+  const [age,    setAge]    = useState("");
+  const [error,  setError]  = useState("");
 
   /**
    * Validates fields and delegates to the parent via onAdd.
-   * Clears the form on success; sets an error message on failure.
+   * Shows a success toast on valid submission or an error toast on failure.
    *
-   * @param {React.FormEvent} e
+   * @param {React.FormEvent<HTMLFormElement>} e
    */
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
+    // Presence check — all fields are required
     if (!name.trim() || !course.trim() || !age) {
-      setError("All fields are required.");
+      const msg = "All fields are required.";
+      setError(msg);
+      showToast(msg, "error");
       return;
     }
 
     const parsedAge = parseInt(age, 10);
     if (isNaN(parsedAge) || parsedAge < 16 || parsedAge > 99) {
-      setError("Age must be a number between 16 and 99.");
+      const msg = "Age must be a number between 16 and 99.";
+      setError(msg);
+      showToast(msg, "error");
       return;
     }
 
-    // Pass the new student up to App state
+    // Lift valid student data to App state
     onAdd({ name: name.trim(), course: course.trim(), age: parsedAge });
+    showToast(`${name.trim()} added successfully!`, "success");
 
-    // Reset form
+    // Reset form after successful submission
     setName("");
     setCourse("");
     setAge("");
