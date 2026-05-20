@@ -1,10 +1,9 @@
 /**
  * @file App.jsx
- * @description Root component that composes all dashboard sections.
- *              Holds the shared students state so the form, counter, student
- *              cards, and student list all stay in sync automatically.
- *              Assumption: data is held in memory (no persistence); refreshing
- *              the page resets the list to the initial seed data.
+ * @description Root component — owns the students state and passes handlers
+ *              down to child components for adding and editing students.
+ *              Assumption: data is held in memory only; a refresh resets to
+ *              the initial seed data.
  */
 
 import { useState } from "react";
@@ -17,7 +16,7 @@ import LoginLogout from "./components/LoginLogout";
 import AddStudentForm from "./components/AddStudentForm";
 
 /**
- * Seed data — pre-loaded so the dashboard is not empty on first load.
+ * Seed data pre-loaded so the dashboard is not empty on first load.
  * @type {{ name: string, course: string, age: number }[]}
  */
 const initialStudents = [
@@ -27,9 +26,8 @@ const initialStudents = [
 ];
 
 /**
- * App – top-level component that owns the students state and passes it down
- * to child components. Adding a student via the form automatically updates
- * the counter, student cards, and enrolled list.
+ * App – top-level component that owns the students state.
+ * Adding or editing a student automatically updates the counter, cards, and list.
  *
  * @returns {JSX.Element}
  */
@@ -39,12 +37,21 @@ function App() {
 
   /**
    * Appends a new student to the list.
-   * Called by AddStudentForm on valid submission.
-   *
    * @param {{ name: string, course: string, age: number }} newStudent
    */
   const handleAddStudent = (newStudent) => {
     setStudents((prev) => [...prev, newStudent]);
+  };
+
+  /**
+   * Replaces the student at the given index with updated data.
+   * @param {number} index
+   * @param {{ name: string, course: string, age: number }} updated
+   */
+  const handleEditStudent = (index, updated) => {
+    setStudents((prev) =>
+      prev.map((s, i) => (i === index ? updated : s))
+    );
   };
 
   return (
@@ -52,16 +59,18 @@ function App() {
       {/* Part 1 – Home: title, heading, and welcome message */}
       <Home />
 
-      {/* Part 7 – Conditional rendering: login / logout toggle */}
-      <LoginLogout />
+      <div className="dashboard-grid">
+        {/* Part 7 – Conditional rendering: login / logout toggle */}
+        <LoginLogout />
 
-      {/* Part 5 – Counter: auto-updates as students.length changes */}
-      <Counter count={students.length} />
+        {/* Part 5 – Counter: auto-updates as students.length changes */}
+        <Counter count={students.length} />
+      </div>
 
       {/* Student entry form — new submissions flow into shared state */}
       <AddStudentForm onAdd={handleAddStudent} />
 
-      {/* Part 3 – Reusable Student component rendered via props */}
+      {/* Part 3 – Student cards with inline edit support */}
       <div className="section">
         <h3>Student Profiles</h3>
         {students.length === 0 ? (
@@ -69,7 +78,14 @@ function App() {
         ) : (
           <div className="student-cards-grid">
             {students.map((s, i) => (
-              <Student key={i} name={s.name} course={s.course} age={s.age} />
+              <Student
+                key={i}
+                index={i}
+                name={s.name}
+                course={s.course}
+                age={s.age}
+                onEdit={handleEditStudent}
+              />
             ))}
           </div>
         )}
