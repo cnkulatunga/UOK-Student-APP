@@ -124,27 +124,6 @@ function App() {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  /* ── Dark mode ─────────────────────────────────────────────────────── */
-
-  /**
-   * Initialise dark mode from localStorage so the preference survives refreshes.
-   * Defaults to false (light mode) on first visit.
-   */
-  const [isDark, setIsDark] = useState(
-    () => localStorage.getItem("uniDashboardDarkMode") === "true"
-  );
-
-  /**
-   * Apply or remove the "dark-mode" class on the <html> element.
-   * Targeting documentElement (html) gives CSS variables defined here higher
-   * specificity than :root declarations, so all var() references update correctly.
-   * Also persist the preference to localStorage.
-   */
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark-mode", isDark);
-    localStorage.setItem("uniDashboardDarkMode", String(isDark));
-  }, [isDark]);
-
   /* ── Search / sort / course filter ─────────────────────────────────── */
 
   const [searchQuery,  setSearchQuery]  = useState("");
@@ -219,11 +198,6 @@ function App() {
     showToast(`${name} removed.`, "info");
   };
 
-  /* ── Print ─────────────────────────────────────────────────────────── */
-
-  /** Triggers the browser's native print dialog. */
-  const handlePrint = () => window.print();
-
   /* ── Render ─────────────────────────────────────────────────────────── */
 
   return (
@@ -232,8 +206,8 @@ function App() {
       {/* Toast overlay — positioned fixed, rendered outside the normal flow */}
       <Toast toasts={toasts} onDismiss={dismissToast} />
 
-      {/* Part 1 – Home: title, heading, welcome + dark mode / print controls */}
-      <Home isDark={isDark} onToggleDark={() => setIsDark(!isDark)} onPrint={handlePrint} />
+      {/* Part 1 – Home: title, heading, welcome message */}
+      <Home />
 
       <div className="dashboard-grid">
         {/* Part 7 – Conditional rendering: admin login / logout */}

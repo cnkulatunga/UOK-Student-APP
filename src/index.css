@@ -587,30 +587,6 @@ body {
   opacity: 0.6;
 }
 
-/* ── Home action buttons (dark mode + print) ───────────── */
-.home-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.home-btn {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.home-btn:hover {
-  background: rgba(255, 255, 255, 0.28);
-}
-
 /* ── Student ID badge ──────────────────────────────────── */
 .student-id {
   font-size: 0.72rem;
@@ -780,75 +756,6 @@ body {
   background: var(--primary);
   border-color: var(--primary);
   color: white;
-}
-
-/* ── Dark mode ─────────────────────────────────────────── */
-html.dark-mode {
-  --bg:          #0f172a;
-  --surface:     #1e293b;
-  --surface-alt: #334155;
-  --border:      #475569;
-  --text:        #f1f5f9;
-  --text-muted:  #94a3b8;
-  --shadow:      0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-hover:0 8px 24px rgba(0, 0, 0, 0.5);
-  background-color: var(--bg);
-  color: var(--text);
-}
-
-html.dark-mode .stat-card {
-  background: linear-gradient(135deg, #1e1b4b, #1e3a5f);
-  border-color: #4f46e5;
-}
-
-html.dark-mode .student-id {
-  background: #312e81;
-  color: #a5b4fc;
-}
-
-html.dark-mode .toast--success { background: #064e3b; color: #6ee7b7; }
-html.dark-mode .toast--error   { background: #7f1d1d; color: #fca5a5; }
-html.dark-mode .toast--info    { background: #1e3a5f; color: #93c5fd; }
-
-html.dark-mode .course-tab { background: var(--surface); }
-
-html.dark-mode .home-section {
-  background: linear-gradient(135deg, #312e81 0%, #4c1d95 50%, #0e7490 100%);
-}
-
-/* ── Print styles ──────────────────────────────────────── */
-@media print {
-  /* Hide interactive and nav elements */
-  .home-actions,
-  .search-sort-bar,
-  .card-actions,
-  .btn,
-  .login-form,
-  .student-form,
-  .toast-container,
-  .footer-links a { display: none !important; }
-
-  body {
-    padding: 0;
-    background: white;
-    color: black;
-  }
-
-  .home-section {
-    background: #4f46e5 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .section {
-    box-shadow: none;
-    border: 1px solid #e2e8f0;
-    break-inside: avoid;
-  }
-
-  .student-cards-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /* ── Responsive ────────────────────────────────────────── */
