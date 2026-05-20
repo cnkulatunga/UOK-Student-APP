@@ -434,6 +434,70 @@ body {
   padding: 8px 0;
 }
 
+/* ── Login form ────────────────────────────────────────── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  outline: none;
+  background: var(--surface-alt);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.password-wrapper input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.toggle-password {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.toggle-password:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.logged-in-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-logout {
+  background-color: var(--danger);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+
+.btn-logout:hover {
+  background-color: var(--danger-dark);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
 /* ── Footer ────────────────────────────────────────────── */
 .footer {
   background: linear-gradient(135deg, #4f46e5, #7c3aed);

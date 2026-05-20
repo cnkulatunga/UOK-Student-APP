@@ -94,7 +94,7 @@ function App() {
 
       {/* Part 4 – Reusable Button; each instance carries its own alert message */}
       <div className="section">
-        <h3>Actions</h3>
+        <h3>Contact Info</h3>
         <Button label="Get Info" message="Welcome to the Student Dashboard!" />
         <Button label="Contact Admin" message="Please email charithk@exampleuni.com" />
       </div>
