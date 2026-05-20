@@ -126,16 +126,23 @@ function App() {
 
   /* ── Dark mode ─────────────────────────────────────────────────────── */
 
-  /** Whether dark mode is active; toggled by the button in Home. */
-  const [isDark, setIsDark] = useState(false);
+  /**
+   * Initialise dark mode from localStorage so the preference survives refreshes.
+   * Defaults to false (light mode) on first visit.
+   */
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem("uniDashboardDarkMode") === "true"
+  );
 
   /**
-   * Apply or remove the "dark-mode" class on <body> whenever isDark changes.
-   * Using <body> means all fixed-position elements (e.g. toast container)
-   * also receive the dark theme without needing to pass props to every component.
+   * Apply or remove the "dark-mode" class on the <html> element.
+   * Targeting documentElement (html) gives CSS variables defined here higher
+   * specificity than :root declarations, so all var() references update correctly.
+   * Also persist the preference to localStorage.
    */
   useEffect(() => {
-    document.body.classList.toggle("dark-mode", isDark);
+    document.documentElement.classList.toggle("dark-mode", isDark);
+    localStorage.setItem("uniDashboardDarkMode", String(isDark));
   }, [isDark]);
 
   /* ── Search / sort / course filter ─────────────────────────────────── */

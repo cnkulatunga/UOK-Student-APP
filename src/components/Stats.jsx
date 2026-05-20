@@ -5,8 +5,8 @@
  *              All values are computed at render time — no separate state needed.
  *
  *              Assumption: average age is rounded to the nearest integer.
- *              "Most popular course" is the course with the highest enrolment count;
- *              ties are broken by whichever course appears first in the array.
+ *              Ages are coerced to Number() before summing to guard against
+ *              string values that may survive a localStorage round-trip.
  */
 
 /**
@@ -19,9 +19,13 @@
 function Stats({ students }) {
   const total = students.length;
 
-  /** Compute average age; show "—" when there are no students. */
+  /**
+   * Sum ages with explicit Number() coercion so string ages ("21") from
+   * localStorage do not produce string concatenation instead of addition.
+   * Returns null when there are no students so the display shows "—".
+   */
   const avgAge = total
-    ? Math.round(students.reduce((sum, s) => sum + s.age, 0) / total)
+    ? Math.round(students.reduce((sum, s) => sum + Number(s.age), 0) / total)
     : null;
 
   /**
@@ -37,6 +41,15 @@ function Stats({ students }) {
     return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
   })();
 
+  /**
+   * Safe display helper — returns "—" for null or NaN, otherwise the value.
+   * Using || instead of ?? so NaN (not caught by ??) also falls back to "—".
+   *
+   * @param {number|null} val
+   * @returns {string|number}
+   */
+  const display = (val) => (val === null || isNaN(val) ? "—" : val);
+
   return (
     <div className="section stats-section">
       <h3>Statistics</h3>
@@ -44,19 +57,19 @@ function Stats({ students }) {
 
         {/* Total enrolled students */}
         <div className="stat-card">
-          <p className="stat-value">{total}</p>
+          <span className="stat-value">{total}</span>
           <p className="stat-label">Total Students</p>
         </div>
 
-        {/* Average age across all students */}
+        {/* Average age — coerced to Number to avoid NaN from string ages */}
         <div className="stat-card">
-          <p className="stat-value">{avgAge ?? "—"}</p>
+          <span className="stat-value">{display(avgAge)}</span>
           <p className="stat-label">Average Age</p>
         </div>
 
-        {/* Course with the highest number of enrolled students */}
+        {/* Most popular course by enrolment count */}
         <div className="stat-card stat-card--wide">
-          <p className="stat-value stat-value--sm">{topCourse}</p>
+          <span className="stat-value stat-value--sm">{topCourse}</span>
           <p className="stat-label">Most Popular Course</p>
         </div>
 

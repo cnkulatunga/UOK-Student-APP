@@ -42,6 +42,7 @@ body {
   color: var(--text);
   padding: 28px 20px;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app-container {
@@ -114,7 +115,7 @@ body {
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
-  transition: box-shadow 0.2s;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
 }
 
 .section:hover {
@@ -689,12 +690,11 @@ body {
 }
 
 .stat-value {
+  display: block;
   font-size: 2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary-dark);
+  margin: 6px 0 2px;
 }
 
 .stat-value--sm {
@@ -783,7 +783,7 @@ body {
 }
 
 /* ── Dark mode ─────────────────────────────────────────── */
-body.dark-mode {
+html.dark-mode {
   --bg:          #0f172a;
   --surface:     #1e293b;
   --surface-alt: #334155;
@@ -796,23 +796,23 @@ body.dark-mode {
   color: var(--text);
 }
 
-body.dark-mode .stat-card {
+html.dark-mode .stat-card {
   background: linear-gradient(135deg, #1e1b4b, #1e3a5f);
   border-color: #4f46e5;
 }
 
-body.dark-mode .student-id {
+html.dark-mode .student-id {
   background: #312e81;
   color: #a5b4fc;
 }
 
-body.dark-mode .toast--success { background: #064e3b; color: #6ee7b7; }
-body.dark-mode .toast--error   { background: #7f1d1d; color: #fca5a5; }
-body.dark-mode .toast--info    { background: #1e3a5f; color: #93c5fd; }
+html.dark-mode .toast--success { background: #064e3b; color: #6ee7b7; }
+html.dark-mode .toast--error   { background: #7f1d1d; color: #fca5a5; }
+html.dark-mode .toast--info    { background: #1e3a5f; color: #93c5fd; }
 
-body.dark-mode .course-tab { background: var(--surface); }
+html.dark-mode .course-tab { background: var(--surface); }
 
-body.dark-mode .home-section {
+html.dark-mode .home-section {
   background: linear-gradient(135deg, #312e81 0%, #4c1d95 50%, #0e7490 100%);
 }
 
