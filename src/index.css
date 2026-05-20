@@ -159,3 +159,79 @@ body {
   background-color: #fee2e2;
   color: #991b1b;
 }
+
+/* Counter */
+.counter-section {
+  text-align: center;
+}
+
+.count-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* Add Student Form */
+.student-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 120px auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.form-group input {
+  padding: 9px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #2d6a9f;
+}
+
+.form-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  background-color: #16a34a;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background-color: #15803d;
+}
+
+/* Empty state */
+.empty-state {
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* Responsive: stack form on small screens */
+@media (max-width: 640px) {
+  .student-form {
+    grid-template-columns: 1fr;
+  }
+}
