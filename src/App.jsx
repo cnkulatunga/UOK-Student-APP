@@ -14,6 +14,7 @@ import Counter from "./components/Counter";
 import StudentList from "./components/StudentList";
 import LoginLogout from "./components/LoginLogout";
 import AddStudentForm from "./components/AddStudentForm";
+import Footer from "./components/Footer";
 
 /**
  * Seed data pre-loaded so the dashboard is not empty on first load.
@@ -100,6 +101,8 @@ function App() {
 
       {/* Part 6 – Lists rendered with .map() — driven by shared students state */}
       <StudentList students={students} />
+
+      <Footer />
     </div>
   );
 }
