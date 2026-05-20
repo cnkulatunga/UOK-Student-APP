@@ -482,6 +482,16 @@ body {
   color: var(--primary);
 }
 
+.login-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.login-hint strong {
+  color: var(--primary);
+}
+
 .logged-in-view {
   display: flex;
   flex-direction: column;

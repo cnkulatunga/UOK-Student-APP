@@ -7,14 +7,14 @@
  *
  *              Assumption:
  *              Admin username: admin
- *              Admin password: admin123
+ *              Admin password: admin
  */
 
 import { useState } from "react";
 
 /** Hardcoded admin credentials (demo only — not for production use). */
 const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_PASSWORD = "admin";
 
 /**
  * LoginLogout – conditionally renders a credential form or a logged-in banner
@@ -103,6 +103,7 @@ function LoginLogout() {
           </div>
 
           <button type="submit" className="btn btn-primary">Login</button>
+          <p className="login-hint">Use username: <strong>admin</strong> &amp; password: <strong>admin</strong></p>
         </form>
       )}
     </div>

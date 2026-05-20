@@ -16,15 +16,8 @@ import LoginLogout from "./components/LoginLogout";
 import AddStudentForm from "./components/AddStudentForm";
 import Footer from "./components/Footer";
 
-/**
- * Seed data pre-loaded so the dashboard is not empty on first load.
- * @type {{ name: string, course: string, age: number }[]}
- */
-const initialStudents = [
-  { name: "Alice Fernando", course: "BSc Computer Science", age: 21 },
-  { name: "Brian Perera", course: "BSc Information Technology", age: 22 },
-  { name: "Chamari Silva", course: "BSc Software Engineering", age: 20 },
-];
+/** Start with no students — data is added entirely via the form. */
+const initialStudents = [];
 
 /**
  * App – top-level component that owns the students state.
