@@ -2,9 +2,10 @@
  * @file Student.jsx
  * @description Part 3 – Reusable Student Component.
  *              Renders a student card in view mode by default.
- *              Clicking Edit switches the card to an inline edit form;
- *              Save validates and persists changes via the onEdit callback;
- *              Cancel discards local changes and restores the previous values.
+ *              Edit  – toggles an inline edit form pre-filled with current values.
+ *              Save  – validates and lifts changes to App state via onEdit.
+ *              Cancel – discards local edits and returns to view mode.
+ *              Delete – prompts for confirmation then calls onDelete.
  *
  *              Assumption: all three data props (name, course, age) are required.
  *              Age must be an integer between 16 and 99.
@@ -13,27 +14,27 @@
 import { useState } from "react";
 
 /**
- * Student – displays and optionally edits a single student's details.
+ * Student – displays and optionally edits or deletes a single student's details.
  *
  * @param {object}   props
- * @param {string}   props.name    - Full name of the student.
- * @param {string}   props.course  - Enrolled course / degree programme.
- * @param {number}   props.age     - Age of the student.
- * @param {number}   props.index   - Position in the parent students array;
- *                                   passed back through onEdit so App can
- *                                   update the correct record.
- * @param {Function} props.onEdit  - Callback signature: onEdit(index, { name, course, age }).
+ * @param {string}   props.name     - Full name of the student.
+ * @param {string}   props.course   - Enrolled course / degree programme.
+ * @param {number}   props.age      - Age of the student.
+ * @param {number}   props.index    - Position in the parent students array;
+ *                                    passed back through onEdit / onDelete so
+ *                                    App can target the correct record.
+ * @param {Function} props.onEdit   - Callback: onEdit(index, { name, course, age }).
+ * @param {Function} props.onDelete - Callback: onDelete(index, name).
  * @returns {JSX.Element}
  */
-function Student({ name, course, age, index, onEdit }) {
+function Student({ name, course, age, index, onEdit, onDelete }) {
 
   /** Controls whether the card renders in view mode or inline edit mode. */
   const [isEditing, setIsEditing] = useState(false);
 
   /**
    * Local copies of the prop values used as controlled inputs while editing.
-   * Kept separate from props so the user can cancel without affecting the
-   * shared state in App — changes only propagate on Save.
+   * Kept separate from props so Cancel can revert without touching shared state.
    */
   const [editName,   setEditName]   = useState(name);
   const [editCourse, setEditCourse] = useState(course);
@@ -74,6 +75,14 @@ function Student({ name, course, age, index, onEdit }) {
     setEditAge(age);
     setError("");
     setIsEditing(false);
+  };
+
+  /**
+   * Delegates to the onDelete callback in App.
+   * The confirmation prompt lives in App so the delete logic stays centralised.
+   */
+  const handleDelete = () => {
+    onDelete(index, name);
   };
 
   /* ── Edit mode ─────────────────────────────────────────────────────── */
@@ -128,9 +137,10 @@ function Student({ name, course, age, index, onEdit }) {
       <p><span className="label">Course:</span> {course}</p>
       <p><span className="label">Age:</span>    {age}</p>
 
-      <button className="btn btn-edit" onClick={() => setIsEditing(true)}>
-        Edit
-      </button>
+      <div className="card-actions">
+        <button className="btn btn-edit"   onClick={() => setIsEditing(true)}>Edit</button>
+        <button className="btn btn-delete" onClick={handleDelete}>Delete</button>
+      </div>
     </div>
   );
 }

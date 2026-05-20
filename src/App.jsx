@@ -1,45 +1,65 @@
 /**
  * @file App.jsx
  * @description Root component of the Example UNI Student Dashboard.
- *              Owns the shared students state and passes add/edit handlers
- *              down to child components so every section stays in sync.
+ *              Owns the shared students state and passes add / edit / delete
+ *              handlers down to child components so every section stays in sync.
  *
- *              Assumption: data is held in React state (in-memory only).
- *              Refreshing the page resets the list to empty because no
- *              persistence layer (localStorage, API) is implemented in this phase.
+ *              Persistence: the students array is saved to localStorage on every
+ *              change and reloaded on mount, so data survives page refreshes.
+ *
+ *              localStorage key: "uniDashboardStudents"
  */
 
-import { useState } from "react";
-import Home          from "./components/Home";
-import Student       from "./components/Student";
-import Button        from "./components/Button";
-import Counter       from "./components/Counter";
-import StudentList   from "./components/StudentList";
-import LoginLogout   from "./components/LoginLogout";
+import { useState, useEffect } from "react";
+import Home           from "./components/Home";
+import Student        from "./components/Student";
+import Button         from "./components/Button";
+import Counter        from "./components/Counter";
+import StudentList    from "./components/StudentList";
+import LoginLogout    from "./components/LoginLogout";
 import AddStudentForm from "./components/AddStudentForm";
-import Footer        from "./components/Footer";
+import Footer         from "./components/Footer";
+
+/** Key used to read and write student data in localStorage. */
+const STORAGE_KEY = "uniDashboardStudents";
 
 /**
- * Dashboard starts with an empty list.
- * All student records must be entered through the Add New Student form.
- * @type {{ name: string, course: string, age: number }[]}
+ * Reads the students array from localStorage.
+ * Returns an empty array if no data has been saved yet or if parsing fails.
+ *
+ * @returns {{ name: string, course: string, age: number }[]}
  */
-const initialStudents = [];
+function loadStudents() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    // Corrupted data — start fresh rather than crashing
+    return [];
+  }
+}
 
 /**
  * App – top-level component that owns the students state.
- * Adding or editing a student automatically updates the counter,
- * student profile cards, and the enrolled names list.
+ * Adding, editing, or deleting a student automatically updates the counter,
+ * student profile cards, enrolled names list, and localStorage.
  *
  * @returns {JSX.Element}
  */
 function App() {
   /**
-   * Single source of truth for all student data across the dashboard.
-   * Child components receive slices of this state as props — they never
-   * mutate it directly; changes flow back up via handler callbacks.
+   * Initialise state from localStorage so previously entered students are
+   * restored on page refresh. Falls back to an empty array on first load.
    */
-  const [students, setStudents] = useState(initialStudents);
+  const [students, setStudents] = useState(loadStudents);
+
+  /**
+   * Persist the students array to localStorage whenever it changes.
+   * useEffect runs after every render where `students` has changed.
+   */
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+  }, [students]);
 
   /**
    * Appends a validated new student to the students array.
@@ -64,6 +84,20 @@ function App() {
     );
   };
 
+  /**
+   * Removes the student at the given index after the user confirms the action.
+   * window.confirm() is used as a lightweight guard against accidental deletion.
+   * Triggered by the Delete button on each Student card.
+   *
+   * @param {number} index - Array position of the student to remove.
+   * @param {string} name  - Student name shown in the confirmation prompt.
+   */
+  const handleDeleteStudent = (index, name) => {
+    const confirmed = window.confirm(`Remove ${name} from the dashboard?`);
+    if (!confirmed) return;
+    setStudents((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="app-container">
 
@@ -81,7 +115,7 @@ function App() {
       {/* Add New Student form — valid submissions are lifted into students state */}
       <AddStudentForm onAdd={handleAddStudent} />
 
-      {/* Part 3 – Reusable Student component: one card per entry, with inline edit */}
+      {/* Part 3 – Reusable Student component: one card per entry, with edit and delete */}
       <div className="section">
         <h3>Student Profiles</h3>
         {students.length === 0 ? (
@@ -97,6 +131,7 @@ function App() {
                 course={s.course}
                 age={s.age}
                 onEdit={handleEditStudent}
+                onDelete={handleDeleteStudent}
               />
             ))}
           </div>
@@ -106,8 +141,8 @@ function App() {
       {/* Part 4 – Reusable Button: each instance carries its own alert message */}
       <div className="section">
         <h3>Contact Info</h3>
-        <Button label="Get Info"       message="Welcome to the Student Dashboard!" />
-        <Button label="Contact Admin"  message="Please email charithk@exampleuni.com" />
+        <Button label="Get Info"      message="Welcome to the Student Dashboard!" />
+        <Button label="Contact Admin" message="Please email charithk@exampleuni.com" />
       </div>
 
       {/* Part 6 – Enrolled student names rendered with .map() and keyed list items */}

@@ -259,6 +259,18 @@ body {
   box-shadow: none;
 }
 
+.btn-delete {
+  background-color: var(--danger);
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+
+.btn-delete:hover {
+  background-color: var(--danger-dark);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+}
+
 /* ── Student Cards ─────────────────────────────────────── */
 .student-cards-grid {
   display: grid;
