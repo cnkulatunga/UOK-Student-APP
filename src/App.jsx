@@ -79,7 +79,7 @@ function App() {
       <div className="section">
         <h3>Actions</h3>
         <Button label="Get Info" message="Welcome to the Student Dashboard!" />
-        <Button label="Contact Admin" message="Please email admin@university.edu" />
+        <Button label="Contact Admin" message="Please email charithk@exampleuni.com" />
       </div>
 
       {/* Part 6 – Lists rendered with .map() — driven by shared students state */}
