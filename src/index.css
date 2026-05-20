@@ -1,0 +1,161 @@
+/* Part 8 – Basic Styling */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  padding: 24px;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Home section */
+.home-section {
+  background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
+  color: white;
+  padding: 32px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.system-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.dashboard-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.welcome-message {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Generic section */
+.section {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1e3a5f;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+/* Student cards grid */
+.student-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.student-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.student-card p {
+  font-size: 0.95rem;
+}
+
+.label {
+  font-weight: 600;
+  color: #2d6a9f;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  background-color: #2d6a9f;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #1e3a5f;
+}
+
+/* Counter */
+.count-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d6a9f;
+  margin-bottom: 12px;
+}
+
+/* Student list */
+.student-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.student-list li {
+  background: #f0f4f8;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+/* Login / Logout */
+.login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.status {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.logged-in {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.logged-out {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
